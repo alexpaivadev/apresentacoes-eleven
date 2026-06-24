@@ -7,6 +7,14 @@
       content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
     />
     <title>{{TÍTULO DA APRESENTAÇÃO}}</title>
+    <meta
+      name="description"
+      content="{{Descrição curta do deck (1 frase) — usada em busca e ao compartilhar o link}}"
+    />
+    <meta name="theme-color" content="#102A42" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="{{TÍTULO DA APRESENTAÇÃO}}" />
+    <meta property="og:description" content="{{Descrição curta do deck}}" />
     <style>
       /* ===== (a) Fontes Sora + Inter embutidas em base64 — 9 faces, zero refs externas ===== */
       @font-face {
@@ -1126,6 +1134,29 @@
       .vtxt p b {
         color: #fff;
       }
+      /* variante compacta: 6 itens cabem nos 720px (5 itens cabem sem ela).
+         flex:1 + space-between distribui a folga como respiro entre as linhas. */
+      .verd.tight {
+        flex: 1;
+        justify-content: space-between;
+        gap: 0;
+      }
+      .verd.tight .vrow {
+        padding: 12px 26px;
+        gap: 20px;
+      }
+      .verd.tight .vnum {
+        font-size: 30px;
+        width: 46px;
+      }
+      .verd.tight .vtxt h3 {
+        font-size: 17px;
+        margin-bottom: 2px;
+      }
+      .verd.tight .vtxt p {
+        font-size: 13px;
+        line-height: 1.4;
+      }
 
       /* =========================================================
    NAVBAR
@@ -1217,6 +1248,26 @@
       }
       .nav-fs {
         margin-left: 2px;
+      }
+      /* separador + botões de ferramenta na navbar */
+      .nav-sep {
+        width: 1px;
+        height: 22px;
+        background: rgba(255, 255, 255, 0.16);
+        flex-shrink: 0;
+      }
+      .nav-tool svg {
+        width: 18px;
+        height: 18px;
+      }
+      .nav-tool.is-on {
+        background: var(--grad-soft);
+        color: #0c1722;
+      }
+      /* em tela cheia a barra fica só com o essencial (navegação + sair) */
+      html.is-fs .nav-tool,
+      html.is-fs .nav-sep {
+        display: none;
       }
 
       /* ---------- hint ---------- */
@@ -1470,6 +1521,264 @@
       .frota-big small {
         display: inline;
       }
+
+      /* ===== AUDITORIA DE OVERFLOW (abra com ?audit) =====
+         Marca em vermelho qualquer slide cujo conteúdo passe dos 720px de
+         altura — o "estouro" silencioso que o stage corta. Ferramenta de QA
+         pra autoria; não afeta a apresentação normal. */
+      html.audit .slide.overflowing {
+        outline: 4px solid #ff3b5c;
+        outline-offset: -4px;
+      }
+      .audit-badge {
+        position: absolute;
+        top: 12px;
+        right: 14px;
+        z-index: 50;
+        background: #ff3b5c;
+        color: #fff;
+        font:
+          800 13px/1 "Inter",
+          sans-serif;
+        letter-spacing: 0.02em;
+        padding: 7px 11px;
+        border-radius: 8px;
+        box-shadow: 0 6px 18px rgba(255, 59, 92, 0.45);
+      }
+
+      /* =========================================================
+         RECURSOS DE APRESENTAÇÃO (ocultar slides · overview ·
+         notas/presenter · print · a11y)  — ver README
+         ========================================================= */
+
+      /* --- a11y: foco visível --- */
+      .nav-arrow:focus-visible,
+      .nav-dots button:focus-visible,
+      .ov-flag:focus-visible {
+        outline: 2px solid var(--verde-2);
+        outline-offset: 2px;
+      }
+
+      /* --- F1: dot de slide oculto some da navbar --- */
+      .nav-dots button.is-hidden {
+        display: none;
+      }
+
+      /* --- toast (reusa visual do .hint) --- */
+      .hint.toast {
+        bottom: auto;
+        top: 22px;
+        background: rgba(16, 28, 40, 0.92);
+        color: #eaf2fa;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        padding: 9px 18px;
+        border-radius: 30px;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+        backdrop-filter: blur(10px);
+      }
+
+      /* --- F3: notas do apresentador nunca aparecem no deck --- */
+      .notes {
+        display: none !important;
+      }
+
+      /* --- F2: overview (grade de miniaturas) --- */
+      .ov-flag {
+        display: none;
+      }
+      html.overview {
+        overflow: auto;
+      }
+      html.overview .viewport {
+        position: static;
+        display: block;
+        height: auto;
+        min-height: 100%;
+        background: radial-gradient(
+          120% 120% at 50% 0%,
+          #15293c 0%,
+          #0c1722 60%
+        );
+      }
+      html.overview .stage {
+        transform: none !important;
+        width: auto;
+        height: auto;
+        border-radius: 0;
+        box-shadow: none;
+        background: transparent;
+      }
+      html.overview .slides {
+        position: static;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px;
+        padding: 40px;
+      }
+      html.overview .slide {
+        position: relative;
+        inset: auto;
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: none !important;
+        transition: none !important;
+        zoom: var(--ov-scale, 0.25);
+        cursor: pointer;
+        border-radius: 16px;
+        overflow: hidden;
+        outline: 3px solid transparent;
+        outline-offset: 3px;
+      }
+      html.overview .slide::after {
+        content: attr(data-ovn);
+        position: absolute;
+        top: 18px;
+        left: 22px;
+        z-index: 60;
+        font:
+          800 34px/1 "Sora",
+          sans-serif;
+        color: #fff;
+        background: rgba(16, 28, 40, 0.75);
+        padding: 8px 16px;
+        border-radius: 12px;
+      }
+      html.overview .slide.ov-sel {
+        outline-color: var(--verde-2);
+      }
+      html.overview .slide.ov-hidden {
+        opacity: 0.34 !important;
+        filter: grayscale(0.7);
+      }
+      html.overview .slide > * {
+        pointer-events: none;
+      }
+      html.overview .slide .ov-flag {
+        display: inline-flex;
+        pointer-events: auto;
+        position: absolute;
+        bottom: 18px;
+        right: 22px;
+        z-index: 60;
+        border: none;
+        cursor: pointer;
+        font:
+          700 24px/1 "Inter",
+          sans-serif;
+        padding: 12px 20px;
+        border-radius: 12px;
+        color: #fff;
+        background: rgba(60, 103, 158, 0.92);
+      }
+      html.overview .slide.ov-hidden .ov-flag {
+        background: rgba(91, 149, 89, 0.95);
+      }
+      html.overview .navbar,
+      html.overview .hint,
+      html.overview .progress,
+      html.overview .audit-badge {
+        display: none !important;
+      }
+      .ov-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 70;
+        display: none;
+        align-items: center;
+        gap: 14px;
+        padding: 12px 24px;
+        background: rgba(16, 28, 40, 0.82);
+        color: #cdddec;
+        font:
+          600 14px/1 "Inter",
+          sans-serif;
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      html.overview .ov-bar {
+        display: flex;
+      }
+      .ov-bar b {
+        color: #fff;
+      }
+      .ov-bar .ov-key {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 6px;
+        padding: 3px 8px;
+        font-weight: 700;
+      }
+
+      /* --- F5: prefers-reduced-motion (reusa o desligamento do .still) --- */
+      @media (prefers-reduced-motion: reduce) {
+        html:not(.force-motion) * {
+          transition: none !important;
+          animation: none !important;
+        }
+      }
+
+      /* --- F4: impressão de TODOS os slides (?print → html.print-all) --- */
+      @page {
+        size: landscape;
+        margin: 0;
+      }
+      @media print {
+        html.print-all,
+        html.print-all body {
+          overflow: visible;
+          background: #fff;
+        }
+        html.print-all .viewport {
+          position: static;
+          display: block;
+          height: auto;
+          background: #fff;
+        }
+        html.print-all .stage {
+          transform: none !important;
+          width: 1280px;
+          height: auto;
+          border-radius: 0;
+          box-shadow: none;
+          overflow: visible;
+        }
+        html.print-all .slides {
+          position: static;
+        }
+        html.print-all .slide {
+          position: relative;
+          inset: auto;
+          opacity: 1 !important;
+          visibility: visible !important;
+          transform: none !important;
+          transition: none !important;
+          animation: none !important;
+          width: 1280px;
+          height: 720px;
+          page-break-after: always;
+          break-after: page;
+        }
+        html.print-all .slide:last-of-type {
+          page-break-after: auto;
+          break-after: auto;
+        }
+        html.print-all .slide.is-print-skip {
+          display: none !important;
+        }
+        html.print-all [data-anim] {
+          opacity: 1 !important;
+          transform: none !important;
+        }
+        html.print-all .navbar,
+        html.print-all .hint,
+        html.print-all .progress,
+        html.print-all .audit-badge,
+        html.print-all .ov-flag {
+          display: none !important;
+        }
+      }
     </style>
   </head>
   <body>
@@ -1509,6 +1818,12 @@
                 {{Empresa · Área}} · {{Cidade – UF}} · {{data}}
               </div>
             </div>
+            <!-- NOTAS DO APRESENTADOR: aparecem só no modo apresentador (tecla P),
+                 nunca no deck. Adicione um <aside class="notes"> em qualquer slide. -->
+            <aside class="notes">
+              {{Notas do apresentador para este slide — roteiro, números de
+              apoio, lembretes. Visíveis apenas na janela do apresentador (P).}}
+            </aside>
           </section>
 
           <!-- ===== SLIDE: Divisória de seção (escura) — abre uma nova seção do deck. Só kicker + título. ===== -->
@@ -1804,6 +2119,87 @@
         <div class="nav-count">
           <b id="curNum">01</b>/<span id="totNum">08</span>
         </div>
+        <span class="nav-sep"></span>
+        <button
+          class="nav-arrow nav-tool"
+          id="overviewBtn"
+          aria-label="Overview (O)"
+          title="Overview — grade de slides (O)"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <rect x="3" y="3" width="7" height="7" rx="1.5" />
+            <rect x="14" y="3" width="7" height="7" rx="1.5" />
+            <rect x="3" y="14" width="7" height="7" rx="1.5" />
+            <rect x="14" y="14" width="7" height="7" rx="1.5" />
+          </svg>
+        </button>
+        <button
+          class="nav-arrow nav-tool"
+          id="hideBtn"
+          aria-label="Ocultar este slide (H)"
+          title="Ocultar este slide (H) — revele pelo overview"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M9.9 4.24A9.1 9.1 0 0 1 12 4c7 0 10 8 10 8a18 18 0 0 1-2.16 3.19M6.6 6.6A18 18 0 0 0 2 12s3 8 10 8a9 9 0 0 0 5.4-1.6"
+            />
+            <path d="M14.1 14.1a3 3 0 0 1-4.2-4.2" />
+            <line x1="2" y1="2" x2="22" y2="22" />
+          </svg>
+        </button>
+        <button
+          class="nav-arrow nav-tool"
+          id="presenterBtn"
+          aria-label="Modo apresentador (P)"
+          title="Modo apresentador — notas + timer (P)"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <rect x="2" y="4" width="20" height="13" rx="2" />
+            <line x1="8" y1="21" x2="16" y2="21" />
+            <line x1="12" y1="17" x2="12" y2="21" />
+          </svg>
+        </button>
+        <button
+          class="nav-arrow nav-tool"
+          id="printBtn"
+          aria-label="Exportar PDF (todos os slides)"
+          title="Imprimir / PDF de todos os slides"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M6 9V3h12v6" />
+            <path
+              d="M6 18H4a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-2"
+            />
+            <rect x="6" y="14" width="12" height="7" rx="1" />
+          </svg>
+        </button>
+        <span class="nav-sep"></span>
         <button class="nav-arrow nav-fs" id="fsBtn" aria-label="Tela cheia">
           <svg
             viewBox="0 0 24 24"
@@ -1841,10 +2237,88 @@
         const N = slides.length;
         let idx = 0;
         let animating = false;
-        const STILL = /(?:\?|&)still/.test(location.search); // estado final sem animação (validação/print)
+        const reduceMotion = window.matchMedia(
+          "(prefers-reduced-motion: reduce)",
+        ).matches;
+        const STILL =
+          /(?:\?|&)still/.test(location.search) ||
+          /(?:\?|&)print/.test(location.search) ||
+          reduceMotion;
         if (STILL) document.documentElement.classList.add("still");
 
-        totNum.textContent = String(N).padStart(2, "0");
+        /* ---------- camada de slides visíveis (ocultar/pular) ----------
+           Não filtramos o array `slides` (preserva #N, ?audit e dots 1:1):
+           `idx` é sempre o índice REAL; a navegação opera sobre `order`. */
+        const HIDE_KEY = "eleven:hidden:" + location.pathname;
+        const baseSkip = new Set(); // declarativo (data-skip) + URL (?skip/?only)
+        const rtHide = new Set(); // ocultados em runtime (tecla H) — persistido
+        const rtShow = new Set(); // revelados em runtime — sobrepõe baseSkip
+        let order = []; // índices reais navegáveis, em ordem
+        const realToPos = new Map(); // índice real -> posição em `order`
+        const isHidden = (i) =>
+          (baseSkip.has(i) || rtHide.has(i)) && !rtShow.has(i);
+        function rebuildOrder() {
+          order = slides.map((_, i) => i).filter((i) => !isHidden(i));
+          if (!order.length) order = slides.map((_, i) => i); // nunca deck vazio
+          realToPos.clear();
+          order.forEach((real, pos) => realToPos.set(real, pos));
+        }
+        function nearestVisible(i) {
+          if (realToPos.has(i)) return i;
+          for (let d = 1; d < N; d++) {
+            if (realToPos.has(i + d)) return i + d;
+            if (realToPos.has(i - d)) return i - d;
+          }
+          return order[0];
+        }
+        function parseSkipSources() {
+          const qs = new URLSearchParams(location.search);
+          const nums = (v) =>
+            (v || "")
+              .split(",")
+              .map((x) => parseInt(x, 10) - 1)
+              .filter((x) => x >= 0 && x < N);
+          slides.forEach((s, i) => {
+            if (s.hasAttribute("data-skip")) baseSkip.add(i);
+          });
+          if (qs.has("only")) {
+            const keep = new Set(nums(qs.get("only")));
+            baseSkip.clear();
+            slides.forEach((_, i) => {
+              if (!keep.has(i)) baseSkip.add(i);
+            });
+          } else if (qs.has("skip")) {
+            nums(qs.get("skip")).forEach((i) => baseSkip.add(i));
+          }
+          try {
+            const saved = JSON.parse(localStorage.getItem(HIDE_KEY) || "{}");
+            (saved.h || []).forEach((i) => {
+              if (i >= 0 && i < N) rtHide.add(i);
+            });
+            (saved.s || []).forEach((i) => {
+              if (i >= 0 && i < N) rtShow.add(i);
+            });
+          } catch (e) {}
+        }
+        function persistHidden() {
+          try {
+            localStorage.setItem(
+              HIDE_KEY,
+              JSON.stringify({ h: [...rtHide], s: [...rtShow] }),
+            );
+          } catch (e) {}
+        }
+        function toggleHidden(i) {
+          if (isHidden(i)) {
+            rtShow.add(i);
+            rtHide.delete(i);
+          } else {
+            rtHide.add(i);
+            rtShow.delete(i);
+          }
+          persistHidden();
+          rebuildOrder();
+        }
 
         /* ---------- dots ---------- */
         slides.forEach((s, i) => {
@@ -1921,6 +2395,7 @@
         /* ---------- navigation ---------- */
         function go(n) {
           if (n < 0 || n >= N || n === idx || animating) return;
+          if (!realToPos.has(n)) return; // não navega para slide oculto
           animating = true;
 
           const out = slides[idx];
@@ -1950,18 +2425,32 @@
           }, 620);
         }
         function next() {
-          go(idx + 1);
+          const p = realToPos.get(idx);
+          if (p != null && p + 1 < order.length) go(order[p + 1]);
         }
         function prev() {
-          go(idx - 1);
+          const p = realToPos.get(idx);
+          if (p != null && p - 1 >= 0) go(order[p - 1]);
         }
 
         function update() {
-          dots.forEach((d, i) => d.classList.toggle("on", i === idx));
-          curNum.textContent = String(idx + 1).padStart(2, "0");
-          prevBtn.disabled = idx === 0;
-          nextBtn.disabled = idx === N - 1;
-          progFill.style.width = (idx / (N - 1)) * 100 + "%";
+          const pos = realToPos.get(idx) ?? 0;
+          const total = order.length;
+          totNum.textContent = String(total).padStart(2, "0");
+          curNum.textContent = String(pos + 1).padStart(2, "0");
+          dots.forEach((d, i) => {
+            d.classList.toggle("on", i === idx);
+            d.classList.toggle("is-hidden", isHidden(i));
+            d.tabIndex = isHidden(i) ? -1 : 0;
+          });
+          prevBtn.disabled = pos === 0;
+          nextBtn.disabled = pos === total - 1;
+          progFill.style.width =
+            (total > 1 ? (pos / (total - 1)) * 100 : 0) + "%";
+          // a11y: só o slide ativo é exposto a leitores de tela
+          slides.forEach((s, i) =>
+            s.setAttribute("aria-hidden", String(i !== idx)),
+          );
         }
 
         /* ---------- controls ---------- */
@@ -1973,7 +2462,54 @@
           else document.exitFullscreen?.();
         });
 
+        /* botões de ferramenta (somem em tela cheia via CSS html.is-fs) */
+        document
+          .getElementById("overviewBtn")
+          .addEventListener("click", openOverview);
+        document
+          .getElementById("hideBtn")
+          .addEventListener("click", toggleHiddenCurrent);
+        document
+          .getElementById("presenterBtn")
+          .addEventListener("click", openPresenter);
+        document.getElementById("printBtn").addEventListener("click", doPrint);
+        document.addEventListener("fullscreenchange", () => {
+          document.documentElement.classList.toggle(
+            "is-fs",
+            !!document.fullscreenElement,
+          );
+        });
+
+        function doPrint() {
+          document.documentElement.classList.add("print-all", "still");
+          slides.forEach((s, i) => {
+            s.classList.toggle("is-print-skip", isHidden(i));
+            reveal(s);
+            // fixa os contadores no valor final (sem animar) para o PDF
+            s.querySelectorAll(".count").forEach((el) => {
+              el.dataset.done = "1";
+              const to = parseFloat(el.dataset.to);
+              const dec = el.dataset.dec ? parseInt(el.dataset.dec, 10) : 0;
+              el.textContent =
+                el.dataset.format === "int"
+                  ? to.toLocaleString("pt-BR")
+                  : to.toFixed(dec).replace(".", ",");
+            });
+          });
+          window.addEventListener(
+            "afterprint",
+            () =>
+              document.documentElement.classList.remove("print-all", "still"),
+            { once: true },
+          );
+          setTimeout(() => window.print(), 200);
+        }
+
         document.addEventListener("keydown", (e) => {
+          if (isOverview) {
+            handleOverviewKeys(e);
+            return;
+          }
           switch (e.key) {
             case "ArrowRight":
             case "PageDown":
@@ -1987,17 +2523,35 @@
               prev();
               break;
             case "Home":
-              go(0);
+              go(order[0]);
               break;
             case "End":
-              go(N - 1);
+              go(order[order.length - 1]);
               break;
             case "f":
             case "F":
               fsBtn.click();
               break;
+            case "o":
+            case "O":
+              e.preventDefault();
+              openOverview();
+              break;
+            case "h":
+            case "H":
+              e.preventDefault();
+              toggleHiddenCurrent();
+              break;
+            case "p":
+            case "P":
+              e.preventDefault();
+              openPresenter();
+              break;
             default:
-              if (/^[1-9]$/.test(e.key)) go(parseInt(e.key, 10) - 1);
+              if (/^[1-9]$/.test(e.key)) {
+                const k = parseInt(e.key, 10);
+                if (order[k - 1] != null) go(order[k - 1]);
+              }
           }
         });
 
@@ -2013,6 +2567,7 @@
         stage.addEventListener(
           "touchend",
           (e) => {
+            if (isOverview) return;
             const dx = e.changedTouches[0].clientX - tx;
             if (Math.abs(dx) > 60) dx < 0 ? next() : prev();
           },
@@ -2023,7 +2578,7 @@
         document.addEventListener(
           "wheel",
           (e) => {
-            if (wheelLock || Math.abs(e.deltaY) < 24) return;
+            if (isOverview || wheelLock || Math.abs(e.deltaY) < 24) return;
             wheelLock = true;
             e.deltaY > 0 ? next() : prev();
             setTimeout(() => {
@@ -2033,17 +2588,277 @@
           { passive: true },
         );
 
+        /* ---------- toast (reusa o visual do .hint) ---------- */
+        let toastEl;
+        function toast(msg) {
+          if (!toastEl) {
+            toastEl = document.createElement("div");
+            toastEl.className = "hint toast hide";
+            document.body.appendChild(toastEl);
+          }
+          toastEl.textContent = msg;
+          toastEl.classList.remove("hide");
+          clearTimeout(toast._t);
+          toast._t = setTimeout(() => toastEl.classList.add("hide"), 2400);
+        }
+
+        /* ---------- F1: ocultar/revelar o slide atual (tecla H) ---------- */
+        function toggleHiddenCurrent() {
+          const wasHidden = isHidden(idx);
+          toggleHidden(idx);
+          if (!wasHidden) {
+            toast("Slide oculto · H reverte · O abre o overview");
+            const t = nearestVisible(idx);
+            if (t !== idx) go(t);
+            else update();
+          } else {
+            toast("Slide revelado");
+            update();
+          }
+        }
+
+        /* ---------- F2: overview (grade de miniaturas) ---------- */
+        let isOverview = false;
+        let ovSel = 0;
+        function layoutOverview() {
+          const cols = 4,
+            pad = 40,
+            gap = 18;
+          const w = (window.innerWidth - pad * 2 - gap * (cols - 1)) / cols;
+          document.documentElement.style.setProperty(
+            "--ov-scale",
+            (w / 1280).toFixed(4),
+          );
+        }
+        function refreshOverview() {
+          slides.forEach((s, i) => {
+            s.classList.toggle("ov-hidden", isHidden(i));
+            const f = s.querySelector(".ov-flag");
+            if (f) f.textContent = isHidden(i) ? "＋ mostrar" : "✕ ocultar";
+          });
+        }
+        function setSel(i) {
+          slides[ovSel] && slides[ovSel].classList.remove("ov-sel");
+          ovSel = Math.max(0, Math.min(N - 1, i));
+          slides[ovSel].classList.add("ov-sel");
+          slides[ovSel].scrollIntoView({ block: "nearest" });
+        }
+        function chooseSel() {
+          if (isHidden(ovSel)) {
+            toggleHidden(ovSel);
+            refreshOverview();
+          } else {
+            const t = ovSel;
+            closeOverview();
+            go(t);
+          }
+        }
+        function handleOverviewKeys(e) {
+          const cols = 4;
+          switch (e.key) {
+            case "Escape":
+            case "o":
+            case "O":
+              e.preventDefault();
+              closeOverview();
+              if (isHidden(idx)) go(nearestVisible(idx));
+              break;
+            case "ArrowRight":
+              e.preventDefault();
+              setSel(ovSel + 1);
+              break;
+            case "ArrowLeft":
+              e.preventDefault();
+              setSel(ovSel - 1);
+              break;
+            case "ArrowDown":
+              e.preventDefault();
+              setSel(ovSel + cols);
+              break;
+            case "ArrowUp":
+              e.preventDefault();
+              setSel(ovSel - cols);
+              break;
+            case "Home":
+              e.preventDefault();
+              setSel(0);
+              break;
+            case "End":
+              e.preventDefault();
+              setSel(N - 1);
+              break;
+            case "Enter":
+            case " ":
+              e.preventDefault();
+              chooseSel();
+              break;
+            case "h":
+            case "H":
+              e.preventDefault();
+              toggleHidden(ovSel);
+              refreshOverview();
+              break;
+          }
+        }
+        function openOverview() {
+          if (isOverview) return;
+          isOverview = true;
+          document.documentElement.classList.add("overview");
+          layoutOverview();
+          slides.forEach((s, i) => {
+            s.dataset.ovn = String(i + 1).padStart(2, "0");
+            if (!s._ovBound) {
+              s.addEventListener("click", (ev) => {
+                if (!isOverview || ev.target.closest(".ov-flag")) return;
+                ovSel = i;
+                chooseSel();
+              });
+              const f = document.createElement("button");
+              f.className = "ov-flag";
+              f.addEventListener("click", (ev) => {
+                ev.stopPropagation();
+                toggleHidden(i);
+                refreshOverview();
+              });
+              s.appendChild(f);
+              s._ovBound = true;
+            }
+          });
+          setSel(idx);
+          refreshOverview();
+          toast("Overview · setas movem · Enter abre · H oculta · Esc fecha");
+        }
+        function closeOverview() {
+          if (!isOverview) return;
+          isOverview = false;
+          document.documentElement.classList.remove("overview");
+          slides.forEach((s) => s.classList.remove("ov-sel"));
+          fit();
+          update();
+        }
+        window.addEventListener("resize", () => {
+          if (isOverview) layoutOverview();
+        });
+
+        /* ---------- F3: presenter view (tecla P) ----------
+           A janela do apresentador lê o estado direto de `window.opener`
+           (robusto em file://, sem depender de BroadcastChannel) e envia
+           comandos de volta. Expõe duas pontes na janela principal: */
+        function handleCmd(action, real) {
+          if (action === "next") next();
+          else if (action === "prev") prev();
+          else if (action === "goto" && real != null) go(nearestVisible(real));
+        }
+        window.__deckCmd = handleCmd;
+        window.__deckState = () => {
+          const pos = realToPos.get(idx) ?? 0;
+          return {
+            real: idx,
+            pos,
+            total: order.length,
+            nextReal: order[Math.min(pos + 1, order.length - 1)],
+            label: slides[idx].dataset.label || "",
+          };
+        };
+        const PCSS =
+          "*{margin:0;box-sizing:border-box}" +
+          "body{font-family:Inter,system-ui,sans-serif;background:#0c1722;color:#e7eff7;height:100vh;display:flex;flex-direction:column;overflow:hidden}" +
+          ".pbar{display:flex;align-items:center;gap:16px;padding:14px 22px;border-bottom:1px solid rgba(255,255,255,.1)}" +
+          ".timer{font:800 30px/1 Sora,sans-serif;font-variant-numeric:tabular-nums}" +
+          ".clock{color:#9fb1c4;font-weight:600}" +
+          ".pmeta{margin-left:auto;color:#9fb1c4;font-weight:600}.pmeta b{color:#fff}" +
+          ".pbtn{background:rgba(255,255,255,.1);border:none;color:#dfe8f0;border-radius:8px;padding:9px 14px;font-weight:700;cursor:pointer}" +
+          ".pbtn:hover{background:rgba(255,255,255,.2)}" +
+          ".pmain{flex:1;display:grid;grid-template-columns:1.55fr 1fr;gap:18px;padding:18px;min-height:0}" +
+          ".pcol{display:flex;flex-direction:column;gap:10px;min-height:0}" +
+          ".plabel{font:700 12px/1 Inter;letter-spacing:.14em;text-transform:uppercase;color:#9fd0c0}" +
+          ".pv{position:relative;background:#000;border-radius:12px;overflow:hidden;flex:1;min-height:0}" +
+          ".pv-inner{position:absolute;top:0;left:0;width:1280px;height:720px;transform-origin:top left}" +
+          ".pnotes{display:block;background:#13212f;border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:16px 18px;font-size:17px;line-height:1.55;color:#dfe8f0;overflow:auto;flex:1;min-height:0}" +
+          '.pnotes:empty:before{content:"— sem notas neste slide —";color:#5f7283}';
+        const PBODY =
+          '<div class="pbar"><div class="timer" id="timer">00:00</div>' +
+          '<button class="pbtn" id="pPause">Pausar</button>' +
+          '<button class="pbtn" id="pReset">Zerar</button>' +
+          '<div class="clock" id="clock"></div><div class="pmeta" id="pmeta"></div>' +
+          '<button class="pbtn" id="pPrev">◀</button>' +
+          '<button class="pbtn" id="pNext">▶</button></div>' +
+          '<div class="pmain"><div class="pcol"><div class="plabel">Atual</div>' +
+          '<div class="pv"><div class="pv-inner" id="curInner"></div></div></div>' +
+          '<div class="pcol"><div class="plabel">Próximo</div>' +
+          '<div class="pv" style="flex:0 0 38%"><div class="pv-inner" id="nextInner"></div></div>' +
+          '<div class="plabel">Notas do apresentador</div>' +
+          '<div class="pnotes" id="pnotes"></div></div></div>';
+        const PJS =
+          "(function(){var op=window.opener;" +
+          "var curI=document.getElementById('curInner'),nextI=document.getElementById('nextInner');" +
+          "var notesEl=document.getElementById('pnotes'),meta=document.getElementById('pmeta');" +
+          "var t0=Date.now(),paused=false,pausedAt=0,acc=0;" +
+          "function fmt(ms){var s=Math.floor(ms/1000),m=Math.floor(s/60);s=s%60;return (m<10?'0':'')+m+':'+(s<10?'0':'')+s;}" +
+          "function fitAll(){[curI,nextI].forEach(function(inner){var box=inner.parentNode;inner.style.transform='scale('+(box.clientWidth/1280)+')';});}" +
+          "function setPreview(inner,slide){if(inner.__src!==slide){inner.innerHTML='';if(slide){var c=slide.cloneNode(true);c.classList.add('is-active');inner.appendChild(c);}inner.__src=slide;}}" +
+          "function render(){var st=null;try{st=op&&!op.closed&&op.__deckState();}catch(e){}" +
+          "if(!st){meta.innerHTML='<b>desconectado</b>';return;}" +
+          "var sl=op.document.querySelectorAll('.slide');" +
+          "setPreview(curI,sl[st.real]);setPreview(nextI,sl[st.nextReal]);" +
+          "var n=sl[st.real].querySelector('.notes');notesEl.innerHTML=n?n.innerHTML:'';" +
+          "meta.innerHTML='Slide <b>'+(st.pos+1)+'</b> / '+st.total+(st.label?' · '+st.label:'');fitAll();}" +
+          "function tick(){if(!paused){document.getElementById('timer').textContent=fmt(Date.now()-t0-acc);}document.getElementById('clock').textContent=new Date().toLocaleTimeString('pt-BR');}" +
+          "document.getElementById('pPrev').onclick=function(){try{op.__deckCmd('prev');}catch(e){}};" +
+          "document.getElementById('pNext').onclick=function(){try{op.__deckCmd('next');}catch(e){}};" +
+          "document.getElementById('pPause').onclick=function(){if(paused){acc+=Date.now()-pausedAt;paused=false;this.textContent='Pausar';}else{paused=true;pausedAt=Date.now();this.textContent='Retomar';}};" +
+          "document.getElementById('pReset').onclick=function(){t0=Date.now();acc=0;paused=false;pausedAt=0;document.getElementById('pPause').textContent='Pausar';};" +
+          "document.addEventListener('keydown',function(e){if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();try{op.__deckCmd('next');}catch(_){}}else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();try{op.__deckCmd('prev');}catch(_){}}});" +
+          "window.addEventListener('resize',fitAll);setInterval(render,220);setInterval(tick,250);render();})();";
+        let presenterWin = null;
+        function openPresenter() {
+          if (presenterWin && !presenterWin.closed) {
+            presenterWin.focus();
+            return;
+          }
+          presenterWin = window.open(
+            "",
+            "elevenPresenter",
+            "width=1180,height=760",
+          );
+          if (!presenterWin) {
+            toast("Pop-up bloqueado — permita pop-ups para o apresentador");
+            return;
+          }
+          const deckCss = document.querySelector("style").textContent;
+          const doc =
+            '<!doctype html><html lang="pt-BR"><head><meta charset="utf-8">' +
+            "<title>Apresentador · Eleven</title><style>" +
+            deckCss +
+            "</style><style>" +
+            PCSS +
+            "</style></head><body>" +
+            PBODY +
+            "<scr" +
+            "ipt>" +
+            PJS +
+            "</scr" +
+            "ipt></body></html>";
+          presenterWin.document.open();
+          presenterWin.document.write(doc);
+          presenterWin.document.close();
+          toast("Apresentador aberto · atual + próximo + notas + timer");
+        }
+
         /* ---------- navigation hint ---------- */
         const hint = document.createElement("div");
         hint.className = "hint";
         hint.textContent =
-          "← →  navegar   ·   F  tela cheia   ·   clique nos pontos";
+          "← →  navegar   ·   O  overview   ·   P  apresentador   ·   H  ocultar slide   ·   F  tela cheia";
         document.body.appendChild(hint);
-        setTimeout(() => hint.classList.add("hide"), 4200);
+        setTimeout(() => hint.classList.add("hide"), 5400);
 
-        /* ---------- boot (supports #N deep-link) ---------- */
+        /* ---------- boot (slides ocultos + #N deep-link) ---------- */
+        parseSkipSources();
+        rebuildOrder();
         const hashN = parseInt((location.hash || "").replace("#", ""), 10);
         if (hashN >= 1 && hashN <= N) idx = hashN - 1;
+        idx = nearestVisible(idx);
         slides[idx].classList.add("is-active");
         update();
         requestAnimationFrame(() =>
@@ -2052,6 +2867,60 @@
             runCounters(slides[idx]);
           }),
         );
+
+        /* ---------- F4: impressão de TODOS os slides (?print) ---------- */
+        if (/(?:\?|&)print/.test(location.search)) {
+          document.documentElement.classList.add("print-all");
+          slides.forEach((s, i) => {
+            s.classList.toggle("is-print-skip", isHidden(i));
+            reveal(s); // mostra o conteúdo final em cada página
+            runCounters(s); // STILL já está ativo com ?print → números finais
+          });
+          window.addEventListener("load", () =>
+            setTimeout(() => window.print(), 450),
+          );
+        }
+
+        /* ---------- auditoria de overflow (?audit) ---------- */
+        if (/(?:\?|&)audit/.test(location.search)) {
+          document.documentElement.classList.add("audit");
+          const run = () => {
+            const report = [];
+            slides.forEach((s, i) => {
+              const over = Math.round(s.scrollHeight - s.clientHeight);
+              s.classList.toggle("overflowing", over > 1);
+              s.querySelectorAll(".audit-badge").forEach((b) => b.remove());
+              if (over > 1) {
+                const tag = document.createElement("div");
+                tag.className = "audit-badge";
+                tag.textContent = "▲ +" + over + "px";
+                s.appendChild(tag);
+                report.push(
+                  i +
+                    1 +
+                    " · " +
+                    (s.dataset.label || "") +
+                    " · +" +
+                    over +
+                    "px",
+                );
+              }
+            });
+            let pre = document.getElementById("auditReport");
+            if (!pre) {
+              pre = document.createElement("pre");
+              pre.id = "auditReport";
+              pre.style.display = "none";
+              document.body.appendChild(pre);
+            }
+            pre.textContent = report.length
+              ? report.join("\n")
+              : "OK · nenhum slide estoura 720px";
+            console.log("[AUDIT]\n" + pre.textContent);
+          };
+          requestAnimationFrame(() => requestAnimationFrame(run));
+          window.addEventListener("resize", run);
+        }
       })();
     </script>
   </body>

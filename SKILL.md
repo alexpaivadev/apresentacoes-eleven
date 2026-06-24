@@ -37,8 +37,22 @@ use este template.
    Não invente cores nem layouts fora do padrão. Detalhes em `reference/design-system.md`.
 
 5. **Não há build.** É HTML standalone — basta abrir no navegador (duplo clique). Para gerar
-   PDF: abrir no Chrome → Imprimir → "Salvar como PDF", layout paisagem. Para o estado final
-   sem animação (melhor pro print), abra a URL com `?still`.
+   PDF de **todos os slides**, abra a URL com `?print` (monta uma página por slide e abre o
+   diálogo de impressão); para um slide congelado sem animação, use `?still`.
+
+6. **Audite antes de entregar.** Cada slide é uma caixa fixa de 1280×720 que **corta o overflow
+   sem aviso**. Abra o deck com `?audit`: slide que estoura ganha borda vermelha + badge
+   `▲ +Npx`. Respeite o orçamento de altura (lista numerada = 5 itens, tabela = 7 linhas…; ver
+   `reference/design-system.md`) — se não couber, **divida em dois slides**, não encolha a fonte.
+
+## Modos de apresentação (motor já pronto)
+
+O template traz, além da navegação básica: **`O`** overview (grade de miniaturas), **`H`**
+ocultar/revelar o slide atual, **`P`** modo apresentador (2ª janela com atual + próximo + notas
+
+- timer). Ocultar slides também via `data-skip`, `?skip=4,7` ou `?only=1,2,5`. Notas do
+  apresentador via `<aside class="notes">` (some do deck). A navbar tem botões clicáveis para
+  tudo isso, que **somem em tela cheia**. Detalhes em `reference/design-system.md`.
 
 ## Regras de ouro
 

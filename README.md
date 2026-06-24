@@ -65,8 +65,13 @@ apresentacoes-eleven/
   A × B, lista numerada/passos, blocos win/lose, fechamento.
 - **Navegação inclusa:** setas, números `1–9`, swipe, tela cheia (`F`), barra de progresso e
   contador automáticos.
-- **Exporta PDF:** Chrome → Imprimir → Salvar como PDF (paisagem). Use `?still` na URL para o
-  print sem animação.
+- **Modos de apresentação:** overview de miniaturas (`O`), ocultar/pular slides (`H`,
+  `data-skip`, `?skip=`/`?only=`), modo apresentador com notas + timer (`P`) — com botões na
+  navbar que somem em tela cheia.
+- **Exporta PDF:** `?print` na URL gera o PDF de **todos os slides** (1 por página); `?still`
+  congela um slide sem animação.
+- **Qualidade:** auditoria de overflow (`?audit`) que sinaliza slides estourando os 720px;
+  `aria-hidden`, `prefers-reduced-motion` e foco visível para acessibilidade.
 
 Detalhes completos em [`reference/design-system.md`](reference/design-system.md).
 
