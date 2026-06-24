@@ -17,6 +17,31 @@ vermelho de alerta (perda):  #C75D6E
 Não introduza cores fora desta paleta. Para "bom" use verde, para "ruim/perda" use o
 vermelho de alerta, para neutro/institucional o azul.
 
+## Temas (`data-theme`)
+
+O deck tem **5 temas**. O padrão é o **Eleven Claro** (sem atributo). Para os outros, ponha
+`data-theme="…"` na tag `<html>`; para só pré-visualizar, use `?theme=…` na URL ou a tecla `T`
+(cicla os temas em runtime — ferramenta de autoria).
+
+| Tema              | `data-theme`    | Identidade                                                  |
+| ----------------- | --------------- | ----------------------------------------------------------- |
+| **Eleven Claro**  | _(nenhum)_      | Atual — fundo claro, marca azul→verde.                      |
+| **Eleven Escuro** | `dark`          | Todas as superfícies escuras, mesma marca azul→verde.       |
+| **Corporativo**   | `corporativo`   | Sóbrio — azul-marinho + cinza-aço, acento único, sem verde. |
+| **Institucional** | `institucional` | Azul/verde profundo sólido sobre base escura (petróleo).    |
+| **Eleven Suave**  | `suave`         | Claro/clean — fundo branco, acentos suaves, sombras leves.  |
+
+**Como funciona (não precisa mexer no CSS):** as cores vivem em tokens no `:root`; cada tema é um
+bloco `html[data-theme="x"]{ … }` que sobrescreve só o que muda. O Eleven Claro é **pixel-idêntico**
+ao original (tokens nascem com os valores de hoje).
+
+**Regra de ouro da tokenização** (se for criar componente novo): acento como **preenchimento**
+(barra, gráfico, glow, cabeçalho colorido) usa `--fill-blue`/`--fill-green`/`--grad*` → mantém a
+marca em todos os temas. Acento como **texto sobre card** usa `--accent-on-surface` /
+`--accent-blue-ink` / `--accent-green-ink` → clareia sozinho nos temas escuros (legibilidade).
+Texto/superfície de conteúdo usa `--ink`/`--ink-2`/`--muted`/`--soft` e `--bg`/`--card`/`--line`
+(invertem no dark). Alerta/perda usa `--alert` (constante em todos os temas).
+
 ## Arquétipos de slide disponíveis
 
 Cada um está marcado no template com `<!-- ===== SLIDE: ... ===== -->`.

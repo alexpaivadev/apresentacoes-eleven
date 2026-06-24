@@ -61,6 +61,9 @@ apresentacoes-eleven/
 
 - **Cores:** azul institucional `#3C679E`, verde institucional `#5B9559`, vermelho de alerta
   `#C75D6E`, mais gradientes da marca.
+- **5 temas selecionáveis:** Eleven Claro (padrão), Eleven Escuro, Corporativo, Institucional e
+  Eleven Suave — via `data-theme` na geração (a skill pergunta antes) ou `?theme=` / tecla `T`
+  para pré-visualizar.
 - **8 arquétipos de slide prontos:** capa, divisória de seção, KPIs, gráfico donut, comparativo
   A × B, lista numerada/passos, blocos win/lose, fechamento.
 - **Navegação inclusa:** setas, números `1–9`, swipe, tela cheia (`F`), barra de progresso e

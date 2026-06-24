@@ -158,7 +158,177 @@
         --shadow: 0 18px 50px rgba(20, 46, 74, 0.1);
         --shadow-sm: 0 8px 22px rgba(20, 46, 74, 0.07);
         --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+        /* ===== TOKENS DE TEMA (default = Eleven Claro, valores idênticos aos
+           hardcoded de hoje). Os blocos html[data-theme] abaixo sobrescrevem só
+           o que muda. Ver reference/design-system.md. ===== */
+
+        /* acento como PREENCHIMENTO (mantém a marca em todos os temas) */
+        --fill-blue: #3c679e;
+        --fill-green: #5b9559;
+        --grad-blue: linear-gradient(90deg, #3c679e, #5a86bc);
+        --grad-green: linear-gradient(90deg, #5b9559, #79b86a);
+        --grad-blue-head: linear-gradient(120deg, #3c679e, #4c7fa8);
+        --grad-green-head: linear-gradient(120deg, #5b9559, #6fa86a);
+        --grad-text-light: linear-gradient(100deg, #8fb6e6, #9bd68c);
+        --grad-persona-carro: linear-gradient(150deg, #1b3a5b, #27583f);
+
+        /* acento como TEXTO sobre superfície de conteúdo (clareia nos temas escuros) */
+        --accent-on-surface: #3c679e;
+        --accent-blue-ink: #2e5688;
+        --accent-green-ink: #437a45;
+
+        /* superfície clara — extras */
+        --elevated: #fafbfd;
+        --wash: linear-gradient(180deg, #f4f8fc, #eff6f1);
+        --wash-2: linear-gradient(135deg, #eef3f9, #eef6f0);
+        --wash-3: linear-gradient(100deg, #f3f8ff, #f2fbf4);
+
+        /* texto sobre fundo ESCURO — escala (contrapares hoje hardcoded) */
+        --on-dark: #ffffff;
+        --on-dark-2: #e7eff7;
+        --on-dark-3: #eaf2fa;
+        --on-dark-4: #dfe8f0;
+        --on-dark-5: #d8e5f0;
+        --on-dark-6: #cbdae8;
+        --on-dark-7: #c6d6e6;
+        --on-dark-8: #b9ccdd;
+        --on-dark-faint: #8da4bb;
+        --on-dark-kicker-blue: #9fc0de;
+        --on-dark-kicker-green: #9fd0c0;
+
+        /* superfícies escuras (palco, cover, elevado escuro) */
+        --dark-surface: #0c1722;
+        --dark-surface-2: #15293c;
+        --dark-elevated: #13212f;
+
+        /* semânticos — CONSTANTES entre temas (alerta/perda) */
+        --alert: #c75d6e;
+        --alert-2: #d9748a;
+        --grad-alert: linear-gradient(90deg, #c75d6e, #d9748a);
+        --track-2: #cdd7e2;
+
+        /* cor da barra do SO (meta theme-color), reaplicada por JS no boot */
+        --meta: #102a42;
       }
+
+      /* ===================== TEMAS (html[data-theme]) =====================
+         Cada bloco sobrescreve só os tokens que mudam. Semânticos de alerta e
+         o bloco de ?audit ficam constantes. Regra de ouro: acento como FILL
+         mantém a marca; acento como TEXTO sobre superfície usa *-on-surface/
+         *-ink, que clareia nos temas escuros. ================================ */
+
+      /* --- Eleven Escuro: todas as superfícies escuras, marca azul→verde --- */
+      html[data-theme="dark"] {
+        --bg: #0e1a27;
+        --card: #16232f;
+        --elevated: #1b2a38;
+        --line: rgba(255, 255, 255, 0.1);
+        --line-2: rgba(255, 255, 255, 0.06);
+        --wash: linear-gradient(180deg, #1b2a38, #16232f);
+        --wash-2: linear-gradient(135deg, #1b2a38, #172a22);
+        --wash-3: linear-gradient(100deg, #16263a, #16291f);
+        --ink: #eef4fb;
+        --ink-2: #c6d6e6;
+        --muted: #9fb1c4;
+        --soft: #7c8ea1;
+        --accent-on-surface: #8fb6e6;
+        --accent-blue-ink: #8fb6e6;
+        --accent-green-ink: #9bd68c;
+        --shadow: 0 18px 50px rgba(0, 0, 0, 0.4);
+        --shadow-sm: 0 8px 22px rgba(0, 0, 0, 0.3);
+        --meta: #0c1722;
+      }
+
+      /* --- Corporativo: sóbrio, azul-marinho + cinza-aço, acento único --- */
+      html[data-theme="corporativo"] {
+        --azul: #1f3b5c;
+        --azul-2: #2c5480;
+        --verde: #3a5e84;
+        --verde-2: #4f78a4;
+        --fill-blue: #1f3b5c;
+        --fill-green: #3a5e84;
+        --grad: linear-gradient(100deg, #1f3b5c, #274d74);
+        --grad-soft: linear-gradient(100deg, #2c5480, #4f78a4);
+        --grad-blue: linear-gradient(90deg, #1f3b5c, #2c5480);
+        --grad-green: linear-gradient(90deg, #3a5e84, #4f78a4);
+        --grad-blue-head: linear-gradient(120deg, #1f3b5c, #274d74);
+        --grad-green-head: linear-gradient(120deg, #3a5e84, #456f99);
+        --grad-text-light: linear-gradient(100deg, #b8cce4, #cdd9e8);
+        --grad-dark: linear-gradient(135deg, #0f1f30, #1f3b5c, #2c4a66);
+        --grad-persona-carro: linear-gradient(150deg, #22456a, #2c4a66);
+        --bg: #eef1f5;
+        --card: #ffffff;
+        --elevated: #f6f8fb;
+        --line: #dfe5ee;
+        --line-2: #eef1f6;
+        --ink: #1a232e;
+        --ink-2: #3a4656;
+        --muted: #5d6b7b;
+        --soft: #94a2b2;
+        --accent-on-surface: #234266;
+        --accent-blue-ink: #234266;
+        --accent-green-ink: #2f5174;
+        --on-dark-kicker-blue: #b8cce4;
+        --on-dark-kicker-green: #b8cce4;
+        --meta: #0f1f30;
+      }
+
+      /* --- Institucional: azul/verde profundo sólido sobre base escura --- */
+      html[data-theme="institucional"] {
+        --bg: #0c2230;
+        --card: #143a4a;
+        --elevated: #1a4858;
+        --line: rgba(255, 255, 255, 0.1);
+        --line-2: rgba(255, 255, 255, 0.06);
+        --wash: linear-gradient(180deg, #1a4858, #143a4a);
+        --wash-2: linear-gradient(135deg, #1a4858, #163f42);
+        --wash-3: linear-gradient(100deg, #163a4a, #16432f);
+        --ink: #e7f0f2;
+        --ink-2: #bcd4d6;
+        --muted: #8fa9ab;
+        --soft: #6f8989;
+        --grad-dark: linear-gradient(135deg, #06222a, #0c2230, #143a4a);
+        --grad-persona-carro: linear-gradient(150deg, #143a4a, #1a4858);
+        --accent-on-surface: #7fb0e0;
+        --accent-blue-ink: #7fb0e0;
+        --accent-green-ink: #8fc97e;
+        --shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+        --shadow-sm: 0 8px 22px rgba(0, 0, 0, 0.32);
+        --meta: #06222a;
+      }
+
+      /* --- Eleven Suave: claro/clean, fundo branco, acentos mais suaves --- */
+      html[data-theme="suave"] {
+        --azul: #5a86bc;
+        --azul-2: #7ea6d6;
+        --verde: #79b86a;
+        --verde-2: #9bcd85;
+        --fill-blue: #5a86bc;
+        --fill-green: #79b86a;
+        --grad: linear-gradient(100deg, #5a86bc, #6fa58f, #79b86a);
+        --grad-soft: linear-gradient(100deg, #7ea6d6, #9bcd85);
+        --grad-blue: linear-gradient(90deg, #5a86bc, #7ea6d6);
+        --grad-green: linear-gradient(90deg, #79b86a, #9bcd85);
+        --grad-blue-head: linear-gradient(120deg, #5a86bc, #6f97c8);
+        --grad-green-head: linear-gradient(120deg, #79b86a, #8cc379);
+        --bg: #ffffff;
+        --card: #ffffff;
+        --elevated: #f6f9fc;
+        --line: #edf1f6;
+        --line-2: #f4f7fb;
+        --wash: linear-gradient(180deg, #f7fafc, #f3f9f5);
+        --wash-2: linear-gradient(135deg, #f2f6fb, #f2f8f3);
+        --wash-3: linear-gradient(100deg, #f5f9ff, #f4fcf6);
+        --ink: #1d2733;
+        --ink-2: #46566a;
+        --muted: #6e7e8f;
+        --soft: #97a4b3;
+        --shadow: 0 16px 44px rgba(20, 46, 74, 0.07);
+        --shadow-sm: 0 8px 20px rgba(20, 46, 74, 0.05);
+        --meta: #102a42;
+      }
+
       * {
         margin: 0;
         padding: 0;
@@ -331,7 +501,7 @@
         color: var(--ink);
       }
       .s-head--light .kicker {
-        background: linear-gradient(100deg, #8fb6e6, #9bd68c);
+        background: var(--grad-text-light);
         -webkit-background-clip: text;
         background-clip: text;
         color: transparent;
@@ -362,14 +532,14 @@
       .glow-a {
         width: 560px;
         height: 560px;
-        background: #3c679e;
+        background: var(--fill-blue);
         top: -180px;
         left: -140px;
       }
       .glow-b {
         width: 620px;
         height: 620px;
-        background: #5b9559;
+        background: var(--fill-green);
         bottom: -260px;
         right: -160px;
         opacity: 0.42;
@@ -409,7 +579,7 @@
         letter-spacing: 0.2em;
         text-transform: uppercase;
         font-weight: 600;
-        color: #9fc0de;
+        color: var(--on-dark-kicker-blue);
         margin-bottom: 18px;
       }
       .cover-title {
@@ -420,7 +590,7 @@
         letter-spacing: -0.025em;
       }
       .cover-title span {
-        background: linear-gradient(100deg, #8fb6e6, #9bd68c);
+        background: var(--grad-text-light);
         -webkit-background-clip: text;
         background-clip: text;
         color: transparent;
@@ -522,7 +692,7 @@
         font-size: 13px;
         letter-spacing: 0.13em;
         text-transform: uppercase;
-        color: var(--azul);
+        color: var(--accent-on-surface);
         font-weight: 700;
         margin-bottom: 18px;
       }
@@ -545,13 +715,13 @@
         stroke: var(--line);
       }
       .d-carro {
-        stroke: #5b9559;
+        stroke: var(--fill-green);
         stroke-dasharray: 439.8;
         stroke-dashoffset: 439.8;
         transition: stroke-dashoffset 1.1s var(--ease) 0.2s;
       }
       .d-moto {
-        stroke: #3c679e;
+        stroke: var(--fill-blue);
         stroke-dasharray: 439.8;
         stroke-dashoffset: 439.8;
         transition: stroke-dashoffset 1.1s var(--ease) 0.2s;
@@ -597,10 +767,10 @@
         vertical-align: -1px;
       }
       .dot-moto {
-        background: #3c679e;
+        background: var(--fill-blue);
       }
       .dot-carro {
-        background: #5b9559;
+        background: var(--fill-green);
       }
       /* bars */
       .bar-item {
@@ -651,7 +821,7 @@
       }
       .mini-stats > div {
         flex: 1;
-        background: linear-gradient(180deg, #f4f8fc, #eff6f1);
+        background: var(--wash);
         border: 1px solid var(--line);
         border-radius: 13px;
         padding: 15px 16px;
@@ -693,7 +863,7 @@
         background: var(--grad-dark);
       }
       .p-side--carro {
-        background: linear-gradient(150deg, #1b3a5b 0%, #27583f 100%);
+        background: var(--grad-persona-carro);
       }
       .p-avatar {
         width: 118px;
@@ -732,7 +902,7 @@
         font-size: 13px;
         letter-spacing: 0.2em;
         text-transform: uppercase;
-        color: #9fd0c0;
+        color: var(--on-dark-kicker-green);
         font-weight: 700;
       }
       .p-name {
@@ -811,7 +981,7 @@
         font-size: 12.5px;
         letter-spacing: 0.1em;
         text-transform: uppercase;
-        color: var(--azul);
+        color: var(--accent-on-surface);
         font-weight: 700;
         margin-bottom: 14px;
       }
@@ -842,11 +1012,11 @@
         height: 100%;
         width: 0;
         border-radius: 6px;
-        background: linear-gradient(90deg, #3c679e, #5a86bc);
+        background: var(--grad-blue);
         transition: width 0.9s var(--ease) 0.3s;
       }
       .hbar--g .hbar-t i {
-        background: linear-gradient(90deg, #5b9559, #79b86a);
+        background: var(--grad-green);
       }
       .is-active .hbar-t i {
         width: var(--w);
@@ -888,11 +1058,11 @@
         text-transform: uppercase;
       }
       .cmp-head .cmp-moto {
-        background: linear-gradient(120deg, #3c679e, #4c7fa8);
+        background: var(--grad-blue-head);
         color: #fff;
       }
       .cmp-head .cmp-carro {
-        background: linear-gradient(120deg, #5b9559, #6fa86a);
+        background: var(--grad-green-head);
         color: #fff;
       }
       .cmp-head svg {
@@ -922,16 +1092,16 @@
       }
       .cmp-row .cmp-moto {
         font-weight: 800;
-        color: #2e5688;
+        color: var(--accent-blue-ink);
         font-family: "Sora";
       }
       .cmp-row .cmp-carro {
         font-weight: 800;
-        color: #437a45;
+        color: var(--accent-green-ink);
         font-family: "Sora";
       }
       .cmp-row:nth-child(even) {
-        background: #fafbfd;
+        background: var(--elevated);
       }
 
       /* =========================================================
@@ -966,7 +1136,7 @@
       }
       .city.lead {
         border: 1.5px solid var(--azul);
-        background: linear-gradient(100deg, #f3f8ff, #f2fbf4);
+        background: var(--wash-3);
       }
       .rank {
         width: 25px;
@@ -1008,10 +1178,10 @@
         transition: width 0.85s var(--ease) 0.3s;
       }
       .stack .m {
-        background: #3c679e;
+        background: var(--fill-blue);
       }
       .stack .c {
-        background: #5b9559;
+        background: var(--fill-green);
       }
       .is-active .stack .m {
         width: var(--m);
@@ -1048,11 +1218,11 @@
         letter-spacing: 0.12em;
         text-transform: uppercase;
         font-weight: 700;
-        color: var(--azul);
+        color: var(--accent-on-surface);
         margin-bottom: 8px;
       }
       .ins-hero .ins-h {
-        color: #9fd0c0;
+        color: var(--on-dark-kicker-green);
       }
       .ins-n {
         font-family: "Sora";
@@ -1114,7 +1284,7 @@
         line-height: 1;
         width: 60px;
         flex-shrink: 0;
-        background: linear-gradient(100deg, #8fb6e6, #9bd68c);
+        background: var(--grad-text-light);
         -webkit-background-clip: text;
         background-clip: text;
         color: transparent;
@@ -1296,7 +1466,7 @@
         gap: 9px;
         padding: 9px 20px;
         border-radius: 40px;
-        background: linear-gradient(100deg, #3c679e, #5b9559);
+        background: var(--grad);
         color: #fff;
         font-weight: 700;
         font-size: 15px;
@@ -1360,7 +1530,7 @@
         border: none;
       }
       .hyp-side .ins .ins-h {
-        color: #9fd0c0;
+        color: var(--on-dark-kicker-green);
       }
       .hyp-side .ins p {
         color: #d8e5f0;
@@ -1386,7 +1556,7 @@
         border: 1.5px solid var(--verde);
       }
       .frota.lose {
-        border: 1.5px solid #c75d6e;
+        border: 1.5px solid var(--alert);
       }
       .frota-top {
         display: flex;
@@ -1402,7 +1572,7 @@
         align-items: center;
         justify-content: center;
         flex-shrink: 0;
-        background: linear-gradient(135deg, #eef3f9, #eef6f0);
+        background: var(--wash-2);
       }
       .frota-ico svg {
         width: 26px;
@@ -1435,7 +1605,7 @@
         color: var(--verde);
       }
       .frota.lose .frota-big {
-        color: #c75d6e;
+        color: var(--alert);
       }
       .frota-big small {
         font-family: "Inter";
@@ -1473,10 +1643,10 @@
         width: var(--sai);
       }
       .split2 .fica {
-        background: linear-gradient(90deg, #5b9559, #79b86a);
+        background: var(--grad-green);
       }
       .split2 .sai {
-        background: linear-gradient(90deg, #c75d6e, #d9748a);
+        background: var(--grad-alert);
         justify-content: flex-end;
       }
       .split2-leg {
@@ -1505,7 +1675,7 @@
       /* donut de fatia única (% acionou) */
       .donut2 .d-fatia {
         fill: none;
-        stroke: #c75d6e;
+        stroke: var(--alert);
         stroke-width: 22;
         stroke-dasharray: 439.8;
         stroke-dashoffset: 439.8;
@@ -1516,7 +1686,7 @@
         stroke-dashoffset: 391.4;
       }
       .donut2 .d-track {
-        stroke: #cdd7e2;
+        stroke: var(--track-2);
       }
       .frota-big small {
         display: inline;
@@ -2223,6 +2393,26 @@
       (function () {
         "use strict";
 
+        /* ---------- temas (data-theme="x" e/ou ?theme=x) ----------
+           A skill seta data-theme na geração; ?theme= sobrepõe (preview).
+           Aplicado já no topo, antes de qualquer medição/paint. */
+        const THEMES = ["", "dark", "corporativo", "institucional", "suave"];
+        function applyTheme(t) {
+          if (t) document.documentElement.setAttribute("data-theme", t);
+          else document.documentElement.removeAttribute("data-theme");
+          const mc = getComputedStyle(document.documentElement)
+            .getPropertyValue("--meta")
+            .trim();
+          const m = document.querySelector('meta[name="theme-color"]');
+          if (m && mc) m.setAttribute("content", mc);
+        }
+        let curTheme = "";
+        const qTheme = new URLSearchParams(location.search).get("theme");
+        const attrTheme = document.documentElement.getAttribute("data-theme");
+        if (qTheme && THEMES.includes(qTheme)) curTheme = qTheme;
+        else if (attrTheme && THEMES.includes(attrTheme)) curTheme = attrTheme;
+        applyTheme(curTheme);
+
         const stage = document.getElementById("stage");
         const slidesEl = document.getElementById("slides");
         const slides = Array.from(document.querySelectorAll(".slide"));
@@ -2547,6 +2737,13 @@
               e.preventDefault();
               openPresenter();
               break;
+            case "t":
+            case "T":
+              e.preventDefault();
+              curTheme = THEMES[(THEMES.indexOf(curTheme) + 1) % THEMES.length];
+              applyTheme(curTheme);
+              toast("Tema: " + (curTheme || "Eleven Claro"));
+              break;
             default:
               if (/^[1-9]$/.test(e.key)) {
                 const k = parseInt(e.key, 10);
@@ -2827,7 +3024,9 @@
           }
           const deckCss = document.querySelector("style").textContent;
           const doc =
-            '<!doctype html><html lang="pt-BR"><head><meta charset="utf-8">' +
+            '<!doctype html><html lang="pt-BR"' +
+            (curTheme ? ' data-theme="' + curTheme + '"' : "") +
+            '><head><meta charset="utf-8">' +
             "<title>Apresentador · Eleven</title><style>" +
             deckCss +
             "</style><style>" +

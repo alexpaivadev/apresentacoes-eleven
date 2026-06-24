@@ -20,27 +20,44 @@ use este template.
 
 ## Como criar um deck (workflow)
 
+0. **Pergunte o tema visual ANTES de gerar.** Use a ferramenta `AskUserQuestion` (header
+   "Tema") com estas 5 opções e só prossiga após a resposta:
+   - **Eleven Claro** (padrão — fundo claro, marca azul→verde) → **não** setar atributo.
+   - **Eleven Escuro** → `data-theme="dark"`.
+   - **Corporativo** (sóbrio, azul-marinho/cinza-aço, sem o verde) → `data-theme="corporativo"`.
+   - **Institucional** (azul/verde profundo sólido sobre base escura) → `data-theme="institucional"`.
+   - **Eleven Suave** (claro/clean, fundo branco, acentos suaves) → `data-theme="suave"`.
+
+   Se o usuário não tiver preferência, use Eleven Claro. (Para só pré-visualizar um tema sem
+   editar nada, abra qualquer deck com `?theme=dark|corporativo|institucional|suave` na URL, ou
+   pressione a tecla `T` para ciclar os temas.)
+
 1. **Duplique o template.** Ele está em `assets/template.html` (dentro desta skill).
    Copie para onde o deck final deve morar e renomeie de forma descritiva, ex.:
    `Eleven-NomeDoTema.html`. Se o usuário tiver a estrutura de workspace, o destino padrão
    é `~/Documents/Workspace/Apresentações/`; senão, salve no diretório de trabalho atual.
 
-2. **Entenda o conteúdo antes de editar.** Pergunte ou colete: tema, público, números-chave,
+2. **Aplique o tema escolhido.** Se for um tema não-Claro, edite a tag `<html>` (linha 2) do
+   arquivo duplicado para `<html lang="pt-BR" data-theme="dark">` (ou `corporativo` /
+   `institucional` / `suave`). Para o Eleven Claro, deixe `<html lang="pt-BR">` sem atributo.
+   **Não troque cores na mão** — o tema cuida de toda a paleta.
+
+3. **Entenda o conteúdo antes de editar.** Pergunte ou colete: tema, público, números-chave,
    a mensagem central e o call-to-action. Um deck bom tem uma tese, não só slides.
 
-3. **Edite os slides.** Cada arquétipo no template está marcado com um comentário
+4. **Edite os slides.** Cada arquétipo no template está marcado com um comentário
    `<!-- ===== SLIDE: <nome> — <como usar> ===== -->`. Troque os placeholders `{{...}}`
    pelo conteúdo real. Duplique ou remova blocos (`.kpi`, `.cmp-row`, `.vrow`) conforme a
    quantidade de itens. Remova arquétipos que o deck não precisa — não deixe placeholder cru.
 
-4. **Respeite o design system.** Use só os tokens de cor da marca e os arquétipos prontos.
+5. **Respeite o design system.** Use só os tokens de cor da marca e os arquétipos prontos.
    Não invente cores nem layouts fora do padrão. Detalhes em `reference/design-system.md`.
 
-5. **Não há build.** É HTML standalone — basta abrir no navegador (duplo clique). Para gerar
+6. **Não há build.** É HTML standalone — basta abrir no navegador (duplo clique). Para gerar
    PDF de **todos os slides**, abra a URL com `?print` (monta uma página por slide e abre o
    diálogo de impressão); para um slide congelado sem animação, use `?still`.
 
-6. **Audite antes de entregar.** Cada slide é uma caixa fixa de 1280×720 que **corta o overflow
+7. **Audite antes de entregar.** Cada slide é uma caixa fixa de 1280×720 que **corta o overflow
    sem aviso**. Abra o deck com `?audit`: slide que estoura ganha borda vermelha + badge
    `▲ +Npx`. Respeite o orçamento de altura (lista numerada = 5 itens, tabela = 7 linhas…; ver
    `reference/design-system.md`) — se não couber, **divida em dois slides**, não encolha a fonte.
